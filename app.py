@@ -132,8 +132,8 @@ with tab1:
         if analyze_button:
             if not news_text.strip():
                 st.error("❌ Mohon masukkan teks berita terlebih dahulu!")
-            elif not openai.api_key:
-                st.error("❌ Mohon masukkan OpenAI API Key di sidebar!")
+            elif not st.secrets.get("OPENAI_API_KEY"):
+                st.error("❌ API Key tidak ditemukan!")
             else:
                 with st.spinner("🔄 Menganalisis teks..."):
                     result = analyze_bias(news_text)
