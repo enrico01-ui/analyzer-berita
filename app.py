@@ -206,7 +206,7 @@ with tab3:
     
     st.markdown("### requirements.txt")
     st.code("""streamlit==1.29.0
-openai==1.3.0
+openai>=1.30.0
 python-dotenv==1.0.0""", language="text")
     
     st.markdown("### Cara Menjalankan")
