@@ -1,5 +1,5 @@
 import streamlit as st
-import openai
+from openai import OpenAI
 from typing import Dict
 import os
 
@@ -11,7 +11,7 @@ st.set_page_config(
 )
 
 # Inisialisasi OpenAI
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def analyze_bias(text: str) -> Dict:
     """
@@ -35,17 +35,11 @@ Fokus pada:
 - Keseimbangan perspektif
 - Objektivitas penyajian"""
 
-        response = openai.chat.completions.create(
+        response = client.chat.completions.create(
             model="gpt-4.1-mini",
             messages=[
-                {
-                    "role": "system",
-                    "content": "Anda adalah ahli analisis bias media yang objektif dan teliti."
-                },
-                {
-                    "role": "user",
-                    "content": prompt
-                }
+                {"role": "system", "content": "Anda adalah ahli analisis bias media yang objektif dan teliti."},
+                {"role": "user", "content": prompt}
             ],
             temperature=0.3,
             max_tokens=1000
@@ -98,7 +92,8 @@ with st.sidebar:
         help="Masukkan API key OpenAI Anda"
     )
     if api_key_input:
-        openai.api_key = api_key_input
+        client = OpenAI(api_key=api_key_input)
+
         st.success("API Key tersimpan!")
 
 # Tabs
