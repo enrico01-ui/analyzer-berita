@@ -10,8 +10,12 @@ st.set_page_config(
     layout="wide"
 )
 
+if "OPENAI_API_KEY" not in st.secrets:
+    st.error("❌ API Key belum disetting di Streamlit Secrets!")
+    st.stop()
+
 # Inisialisasi OpenAI
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 def analyze_bias(text: str) -> Dict:
     """
@@ -85,16 +89,7 @@ with st.sidebar:
     
     st.divider()
     
-    # API Key input
-    api_key_input = st.text_input(
-        "OpenAI API Key",
-        type="password",
-        help="Masukkan API key OpenAI Anda"
-    )
-    if api_key_input:
-        client = OpenAI(api_key=api_key_input)
-
-        st.success("API Key tersimpan!")
+   
 
 # Tabs
 tab1, tab2, tab3 = st.tabs(["🔍 Analisis", "📚 Dokumentasi", "💻 Source Code"])
